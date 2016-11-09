@@ -6,7 +6,10 @@ namespace Iridium.PluginCore.Types
     {
         public event EventHandler Loaded;
 
-        public void OnLoaded()
+        /// <summary>
+        /// Called when the plugin is loaded. The default implementation invokes the Loaded event.
+        /// </summary>
+        public virtual void OnLoaded()
         {
             Loaded?.Invoke(this, EventArgs.Empty);
         }

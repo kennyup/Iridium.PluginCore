@@ -3,8 +3,7 @@
 
   "dependencies": {
     "Iridium.PluginCore": "1.0.0-*",
-    "NETStandard.Library": "1.6.0",
-    "SampleExtensibilityCore": "1.0.0-*"
+    "NETStandard.Library": "1.6.0"
   },
 
   "frameworks": {

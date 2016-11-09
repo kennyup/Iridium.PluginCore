@@ -10,6 +10,7 @@
       "type": "platform",
       "version": "1.0.1"
     },
+    "SampleExtensibilityCore": "1.0.0-*",
     "SamplePlugin": "1.0.0-*"
   },
 
