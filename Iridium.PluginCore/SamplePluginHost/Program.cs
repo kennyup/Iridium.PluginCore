@@ -11,7 +11,10 @@ namespace SamplePluginHost
         {
             var pluginLoader = new PluginLoader<IConsolePlugin>();
             pluginLoader.LoadPlugin(typeof(HelloWorldPlugin).GetTypeInfo().Assembly);
-            pluginLoader.AvailablePlugins.ForEach(p=>p.Instance.PrintSomething());
+            foreach (var p in pluginLoader.AvailablePlugins)
+            {
+                p.Instance.PrintSomething();
+            }
         }
     }
 }
