@@ -11,5 +11,7 @@ namespace Iridium.PluginCore.Types
         Version Version { get; }
 
         void OnLoaded();
+
+        void OnUnloaded();
     }
 }

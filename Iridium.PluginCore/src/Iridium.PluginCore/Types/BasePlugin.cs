@@ -19,5 +19,15 @@ namespace Iridium.PluginCore.Types
         {
             Loaded?.Invoke(this, EventArgs.Empty);
         }
+
+        public event EventHandler Unloaded;
+
+        /// <summary>
+        /// Called when the plugin is unloaded. The default implementation invokes the Unloaded event.
+        /// </summary>
+        public virtual void OnUnloaded()
+        {
+            Unloaded?.Invoke(this, EventArgs.Empty);
+        }
     }
 }
