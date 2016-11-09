@@ -9,12 +9,19 @@ namespace SamplePluginHost
     {
         public static void Main(string[] args)
         {
+            //Instantiate a new plugin loader that uses plugins implement IConsolePlugin
             var pluginLoader = new PluginLoader<IConsolePlugin>();
+            //Load a plugin. You can also load a plugin from a file; any instance of Assembly will work.
             pluginLoader.LoadPlugin(typeof(HelloWorldPlugin).GetTypeInfo().Assembly);
+            
+            //Runs PrintSomething() on all available plugins
             foreach (var p in pluginLoader.AvailablePlugins)
             {
                 p.Instance.PrintSomething();
             }
+
+            //Unloads all plugins
+            pluginLoader.ShutdownPlugins();
         }
     }
 }

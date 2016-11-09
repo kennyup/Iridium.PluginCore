@@ -30,6 +30,19 @@ namespace Iridium.PluginCore
             AvailablePlugins.Add(loadedPlugin);
         }
 
+        /// <summary>
+        /// When called, the plugin loader signals all loaded plugins to run their unload method.
+        /// The list of available plugins is cleared.
+        /// </summary>
+        public void ShutdownPlugins()
+        {
+            foreach (var plugin in AvailablePlugins)
+            {
+                plugin.Instance.OnUnloaded();
+                AvailablePlugins.Remove(plugin);
+            }
+        }
+
         public Type FindAssignableType(Assembly pluginAssembly)
         {
             Type ret = null;
