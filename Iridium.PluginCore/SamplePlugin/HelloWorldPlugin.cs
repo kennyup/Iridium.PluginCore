@@ -1,6 +1,5 @@
-﻿using System;
-using Iridium.PluginCore.Types;
-using SampleExtensibilityCore;
+﻿using SampleExtensibilityCore;
+using System;
 
 namespace SamplePlugin
 {

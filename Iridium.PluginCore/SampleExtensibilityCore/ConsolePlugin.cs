@@ -1,8 +1,8 @@
-﻿using Iridium.PluginCore.Types;
+﻿using Iridium.PluginCore;
 
 namespace SampleExtensibilityCore
 {
-    public interface IConsolePlugin : IPlugin
+    public interface IConsolePlugin : IPlatinumPlugin
     {
         void PrintSomething();
     }
