@@ -21,15 +21,16 @@
 
 #endregion Copyright and License Header
 
-using Platinum.PluginCore3.Classes;
+using Iridium.PluginCore.Classes;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Runtime.Loader;
 
-namespace Platinum.PluginCore3
+namespace Iridium.PluginCore
 {
     /// <summary>
     /// Stores a registry of available plugins and provides an API to access them.
@@ -82,13 +83,13 @@ namespace Platinum.PluginCore3
             //Next we'll loop through all the Types found in the assembly
             foreach (var pluginType in pluginAssembly.GetTypes())
             {
-                if (pluginType.IsPublic)
+                if (pluginType.GetTypeInfo().IsPublic)
                 { //Only look at public types
-                    if (!pluginType.IsAbstract)
+                    if (!pluginType.GetTypeInfo().IsAbstract)
                     {  //Only look at non-abstract types
                        //Gets a type object of the interface we need the plugins to match
                        //Type typeInterface = pluginType.GetInterface("IPlatinumPlugin", true);
-                        var containsInterface = typeof(T).IsAssignableFrom(pluginType);
+                        var containsInterface = typeof(T).GetTypeInfo().IsAssignableFrom(pluginType);
                         //Make sure the interface we want to use actually exists
                         //if (typeInterface != null)
                         if (containsInterface)
@@ -112,7 +113,7 @@ namespace Platinum.PluginCore3
         public List<Plugin<T>> LoadPlugin(string pluginFilePath)
         {
             //Create a new assembly from the plugin file we're adding..
-            var pluginAssembly = Assembly.LoadFrom(pluginFilePath);
+            var pluginAssembly = Assembly.Load(AssemblyLoadContext.GetAssemblyName(pluginFilePath));
             return LoadPlugin(pluginAssembly);
         }
 
@@ -149,39 +150,6 @@ namespace Platinum.PluginCore3
         }
 
         /// <summary>
-        /// Searches the input directory for plugins
-        /// </summary>
-        /// <param name="directory">Directory to search for plugins</param>
-        public void LoadPluginsFromDirectory(string directory)
-        {
-            if (!Directory.Exists(directory))
-                return; //Directory doesn't exist. We won't throw, because this might be a Plugins/ subdirectory, and this is for optionally loading plugins anyway
-            //Go through all the files in the search directory
-            foreach (var fileInDir in Directory.GetFiles(directory))
-            {
-                var file = new FileInfo(fileInDir);
-
-                //Check if plugin can be instantiated, use an AppDomain to avoid locking up the file
-                AppDomain testDomain = AppDomain.CreateDomain(Guid.NewGuid().ToString("D"));
-                var testAssembly = TryLoadAssembly(file.FullName, testDomain);
-                if (CheckPluginIsValid(testAssembly))
-                {
-                    //Add the plugin
-                    LoadPlugin(fileInDir);
-                }
-                AppDomain.Unload(testDomain);
-            }
-        }
-
-        /// <summary>
-        /// Loads plugins from the base directory of the current AppDomain.
-        /// </summary>
-        public void LoadPluginsInBaseDirectory()
-        {
-            LoadPluginsFromDirectory(AppDomain.CurrentDomain.BaseDirectory);
-        }
-
-        /// <summary>
         /// When called, the plugin loader signals all loaded plugins to run their shutdown method simultaneously.
         /// The list of available plugins is cleared.
         /// </summary>
@@ -194,25 +162,6 @@ namespace Platinum.PluginCore3
                 availablePlugin.Instance = default(T); //Dereference the plugin
             });
             AvailablePlugins.Clear();
-        }
-
-        /// <summary>
-        /// Attempts to load an assembly from a file path.
-        /// </summary>
-        /// <param name="filePath">The file path to attempt to load an assembly from.</param>
-        /// <param name="targetDomain">The appdomain to load the assembly into</param>
-        /// <returns>null if the operation failed, or an Assembly instance if the operation succeeded.</returns>
-        public Assembly TryLoadAssembly(string filePath, AppDomain targetDomain)
-        {
-            try
-            {
-                //return Assembly.LoadFrom(filePath);
-                return targetDomain.Load(File.ReadAllBytes(filePath));
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         #endregion Public Methods

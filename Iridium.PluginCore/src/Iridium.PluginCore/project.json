@@ -2,7 +2,10 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "Microsoft.CSharp": "4.3.0",
     "NETStandard.Library": "1.6.0",
+    "System.Dynamic.Runtime": "4.3.0",
+    "System.Runtime.Loader": "4.3.0",
     "System.Threading.Tasks.Parallel": "4.0.1"
   },
 
