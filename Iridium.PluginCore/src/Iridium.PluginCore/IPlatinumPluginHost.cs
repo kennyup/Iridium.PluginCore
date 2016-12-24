@@ -18,7 +18,7 @@
 
 */
 #endregion
-namespace Platinum.PluginCore3
+namespace Iridium.PluginCore
 {
     public interface IPlatinumPluginHost
     {

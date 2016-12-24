@@ -23,7 +23,7 @@
 
 using System.Reflection;
 
-namespace Platinum.PluginCore3.Classes
+namespace Iridium.PluginCore.Classes
 {
     /// <summary>
     /// A class representing a loaded plugin.

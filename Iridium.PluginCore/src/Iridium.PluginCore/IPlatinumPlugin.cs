@@ -21,10 +21,10 @@
 
 #endregion Copyright and License Header
 
-using Platinum.PluginCore3.Classes;
+using Iridium.PluginCore.Classes;
 using System;
 
-namespace Platinum.PluginCore3
+namespace Iridium.PluginCore
 {
     public interface IPlatinumPlugin
     {

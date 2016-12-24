@@ -21,14 +21,14 @@
 
 #endregion Copyright and License Header
 
-using Platinum.PluginCore3.Classes;
+using Iridium.PluginCore.Classes;
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Platinum.PluginCore3
+namespace Iridium.PluginCore
 {
     /// <summary>
     /// Stores a registry of available plugins and provides an API to access them.

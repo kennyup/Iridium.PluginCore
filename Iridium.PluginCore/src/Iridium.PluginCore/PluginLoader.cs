@@ -18,7 +18,7 @@
 
 */
 #endregion
-namespace Platinum.PluginCore3
+namespace Iridium.PluginCore
 {
     public class PluginLoader<T> where T : IPlatinumPlugin
     {

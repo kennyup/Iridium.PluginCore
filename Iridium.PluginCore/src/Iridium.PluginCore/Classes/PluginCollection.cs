@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Platinum.PluginCore3.Classes
+namespace Iridium.PluginCore.Classes
 {
     /// <summary>
     /// Represents a collection of plugins. The collection maintains a GUID cache

@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Platinum.PluginCore3.Classes
+namespace Iridium.PluginCore.Classes
 {
     public class PluginPreferences : Dictionary<string, dynamic>
     {
