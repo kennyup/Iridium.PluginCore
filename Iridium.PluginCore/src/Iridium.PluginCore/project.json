@@ -1,4 +1,7 @@
 {
+  "title": "Iridium.PluginCore",
+  "copyright": "Copyright (C) 2015-2016 0xFireball, IridiumIon Software",
+  "description": "Lightweight dynamic plugin system for .NET Core",
   "version": "1.0.0-*",
 
   "dependencies": {
