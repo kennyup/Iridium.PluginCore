@@ -21,14 +21,15 @@
 
 #endregion Copyright and License Header
 
-using Iridium.PluginCore.Classes;
+using Platinum.PluginCore3.Classes;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Iridium.PluginCore
+namespace Platinum.PluginCore3
 {
     /// <summary>
     /// Stores a registry of available plugins and provides an API to access them.
@@ -65,7 +66,7 @@ namespace Iridium.PluginCore
         public bool CheckPluginIsValid(Assembly pluginAssembly)
         {
             if (pluginAssembly == null) return false; //Return false if a null assembly is passed.
-            return FindAssignableType(pluginAssembly) != null;
+            return FindAssignableTypes(pluginAssembly).Any();
         }
 
         /// <summary>
@@ -76,9 +77,8 @@ namespace Iridium.PluginCore
             AvailablePlugins.Clear();
         }
 
-        public Type FindAssignableType(Assembly pluginAssembly)
+        public IEnumerable<Type> FindAssignableTypes(Assembly pluginAssembly)
         {
-            Type ret = null;
             //Next we'll loop through all the Types found in the assembly
             foreach (var pluginType in pluginAssembly.GetTypes())
             {
@@ -93,12 +93,11 @@ namespace Iridium.PluginCore
                         //if (typeInterface != null)
                         if (containsInterface)
                         {
-                            ret = pluginType;
+                            yield return pluginType;
                         }
                     }
                 }
             }
-            return ret;
         }
 
         /// <summary>
@@ -110,11 +109,11 @@ namespace Iridium.PluginCore
             filePaths.ToList().ForEach(fp => LoadPlugin(fp));
         }
 
-        public void LoadPlugin(string pluginFilePath)
+        public List<Plugin<T>> LoadPlugin(string pluginFilePath)
         {
             //Create a new assembly from the plugin file we're adding..
             var pluginAssembly = Assembly.LoadFrom(pluginFilePath);
-            LoadPlugin(pluginAssembly);
+            return LoadPlugin(pluginAssembly);
         }
 
         /// <summary>
@@ -124,23 +123,29 @@ namespace Iridium.PluginCore
         /// and the plugin is added to the AvailablePlugins collection.
         /// </summary>
         /// <param name="pluginAssembly"></param>
-        public void LoadPlugin(Assembly pluginAssembly)
+        public List<Plugin<T>> LoadPlugin(Assembly pluginAssembly)
         {
+            var loadedPlugins = new List<Plugin<T>>();
             //Get the type that can be assigned to the target interface
-            var pluginAssignableType = FindAssignableType(pluginAssembly);
-            //Create a new available plugin since the type implements the IPlatinumPlugin interface
-            var pluginInstance = (T)Activator.CreateInstance(pluginAssembly.GetType(pluginAssignableType.ToString()));
-            var loadedPlugin = new Plugin<T>
+            var pluginAssignableTypes = FindAssignableTypes(pluginAssembly);
+            foreach (var pluginAssignableType in pluginAssignableTypes)
             {
-                Assembly = pluginAssembly,
-                Instance = pluginInstance
-            };
+                //Create a new available plugin since the type implements the IPlatinumPlugin interface
+                var pluginInstance = (T)Activator.CreateInstance(pluginAssembly.GetType(pluginAssignableType.ToString()));
+                var loadedPlugin = new Plugin<T>
+                {
+                    Assembly = pluginAssembly,
+                    Instance = pluginInstance
+                };
 
-            //Call the plugin's initialize method
-            loadedPlugin.Instance.Initialize();
+                //Call the plugin's initialize method
+                loadedPlugin.Instance.Initialize();
 
-            //Add the newly loaded plugin to the plugin collection
-            AvailablePlugins.Add(loadedPlugin);
+                //Add the newly loaded plugin to the plugin collection
+                AvailablePlugins.Add(loadedPlugin);
+                loadedPlugins.Add(loadedPlugin);
+            }
+            return loadedPlugins;
         }
 
         /// <summary>

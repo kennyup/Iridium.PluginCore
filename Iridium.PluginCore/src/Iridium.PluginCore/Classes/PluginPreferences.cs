@@ -20,6 +20,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Iridium.PluginCore.Classes
 {
@@ -43,7 +44,7 @@ namespace Iridium.PluginCore.Classes
 
         private static object GetDefaultValue(Type t)
         {
-            if (t.IsValueType)
+            if (t.GetTypeInfo().IsValueType)
                 return Activator.CreateInstance(t);
 
             return null;
