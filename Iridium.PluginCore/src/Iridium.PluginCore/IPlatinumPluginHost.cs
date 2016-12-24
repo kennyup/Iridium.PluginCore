@@ -20,21 +20,7 @@
 #endregion
 namespace Platinum.PluginCore3
 {
-    public class PluginLoader<T> where T : IPlatinumPlugin
+    public interface IPlatinumPluginHost
     {
-        #region Public Fields
-
-        public PluginFactory<T> Factory { get; }
-
-        #endregion Public Fields
-
-        #region Public Constructors
-
-        public PluginLoader()
-        {
-            Factory = new PluginFactory<T>();
-        }
-
-        #endregion Public Constructors
     }
 }

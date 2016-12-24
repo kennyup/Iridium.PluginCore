@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{406DD7B4-82BF-4F14-905A-CDF170CCDBD0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A989C181-2C1F-438A-8574-9DB29C96761A}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Iridium.PluginCore", "src\Iridium.PluginCore\Iridium.PluginCore.xproj", "{694A3FED-6447-47A0-A874-B50D1ABDCECE}"
 EndProject

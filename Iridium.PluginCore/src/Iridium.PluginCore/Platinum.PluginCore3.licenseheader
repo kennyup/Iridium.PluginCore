@@ -1,4 +1,6 @@
-﻿#region Copyright and License Header
+﻿extensions: designer.cs generated.cs
+extensions: .cs .cpp .h
+#region Copyright and License Header
 /*
 
 	Platinum Plugin Core
@@ -18,23 +20,3 @@
 
 */
 #endregion
-namespace Platinum.PluginCore3
-{
-    public class PluginLoader<T> where T : IPlatinumPlugin
-    {
-        #region Public Fields
-
-        public PluginFactory<T> Factory { get; }
-
-        #endregion Public Fields
-
-        #region Public Constructors
-
-        public PluginLoader()
-        {
-            Factory = new PluginFactory<T>();
-        }
-
-        #endregion Public Constructors
-    }
-}

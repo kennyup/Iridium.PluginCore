@@ -18,23 +18,37 @@
 
 */
 #endregion
-namespace Platinum.PluginCore3
+using System;
+using System.Collections.Generic;
+
+namespace Platinum.PluginCore3.Classes
 {
-    public class PluginLoader<T> where T : IPlatinumPlugin
+    public class PluginPreferences : Dictionary<string, dynamic>
     {
-        #region Public Fields
+        #region Public Methods
 
-        public PluginFactory<T> Factory { get; }
-
-        #endregion Public Fields
-
-        #region Public Constructors
-
-        public PluginLoader()
+        public T Get<T>(string key)
         {
-            Factory = new PluginFactory<T>();
+            return ContainsKey(key) ? this[key] : (T)GetDefaultValue(typeof(T));
         }
 
-        #endregion Public Constructors
+        public T Get<T>(string key, T defaultValue)
+        {
+            return ContainsKey(key) ? this[key] : defaultValue;
+        }
+
+        #endregion Public Methods
+
+        #region Private Methods
+
+        private static object GetDefaultValue(Type t)
+        {
+            if (t.IsValueType)
+                return Activator.CreateInstance(t);
+
+            return null;
+        }
+
+        #endregion Private Methods
     }
 }
